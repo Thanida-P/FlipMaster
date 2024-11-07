@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="img">
+    <file>ui_src/black.png</file>
+    <file>ui_src/board.png</file>
+    <file>ui_src/clock.png</file>
+    <file>ui_src/title_black.png</file>
+    <file>ui_src/title_white.png</file>
+    <file>ui_src/white.png</file>
+  </qresource>
+</RCC>
