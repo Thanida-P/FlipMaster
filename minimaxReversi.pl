@@ -36,9 +36,10 @@ play_game(Board, w, X, Y, NewBoard, GameOver, White, Black) :-
 			NewBoard = Board
 		), GameOver = false
 ), count_pieces(NewBoard, White, Black), !.
+   
 
 % AI move
-play_game(Board, b, NewBoard, UniqueMoves, GameOver) :-
+play_game(Board, b, NewBoard, UniqueMoves, GameOver, White, Black) :-
     (game_over(Board, b) ->
         GameOver = true,
         NewBoard = Board,
@@ -46,14 +47,11 @@ play_game(Board, b, NewBoard, UniqueMoves, GameOver) :-
     ;
         findall((X, Y), valid_move(Board, b, X, Y), Moves),
         (Moves = [] ->
-            NewBoard = Board,
-            UniqueMoves = [],
-            GameOver = false
+            NewBoard = Board
         ;
             minimax(Board, b, 3, _BestScore, (X, Y)),
-            make_move(Board, b, X, Y, NewBoard),
-            findall((X1, Y1), valid_move(NewBoard, w, X1, Y1), NextMoves),
-            sort(NextMoves, UniqueMoves),
-            GameOver = false
-        )
-    ), !.
+            make_move(Board, b, X, Y, NewBoard)
+        ), GameOver = false, 
+			findall((X1, Y1), valid_move(NewBoard, w, X1, Y1), NextMoves),
+			sort(NextMoves, UniqueMoves)
+    ), count_pieces(NewBoard, White, Black), !.
