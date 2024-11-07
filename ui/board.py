@@ -109,11 +109,9 @@ class ReversiGame(QWidget):
     # AI move
     def handleAITurn(self):
         query = f"play_game({self.board}, b, NewBoard, UniqueMoves, GameOver, White, Black)"
-        print("-")
         result = list(self.prolog.query(query))
         
         if result:
-            print(result)
             self.white = result[0]["White"]
             self.black = result[0]["Black"]
             if (result[0]["GameOver"] == "true"):
@@ -124,9 +122,7 @@ class ReversiGame(QWidget):
             self.possibleMoves = self.format_moves(result[0]["UniqueMoves"])
             self.playerTurn = True
             self.init_board()
-        else:
-            print("No result")
-    
+            
     # game over
     def handle_game_over(self):
         if self.white > self.black:
