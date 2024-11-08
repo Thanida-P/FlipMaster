@@ -1,8 +1,9 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout, QWidget, QLabel
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt, QTimer, QUrl
 from PySide6.QtGui import QPixmap
 from pyswip import Prolog
+from PySide6.QtMultimedia import QSoundEffect
 
 class ReversiGame(QWidget):
     def __init__(self, difficulty):
@@ -30,6 +31,8 @@ class ReversiGame(QWidget):
         self.playerTurn = True
         self.white = 0
         self.black = 0
+        self.sound_effect = QSoundEffect()
+        self.sound_effect.setSource(QUrl.fromLocalFile("./ui/ui_src/place.wav"))
         
         self.start_game_in_prolog()
         
@@ -105,6 +108,11 @@ class ReversiGame(QWidget):
             self.board = result[0]["NewBoard"]
             self.playerTurn = False
             self.init_board()
+            self.play_sound()
+    
+    def play_sound(self):
+        sound = "./ui/ui_src/place.wav"
+        self.sound_effect.play()
     
     # AI move
     def handleAITurn(self):
@@ -122,6 +130,7 @@ class ReversiGame(QWidget):
             self.possibleMoves = self.format_moves(result[0]["UniqueMoves"])
             self.playerTurn = True
             self.init_board()
+            self.play_sound()   
             
     # game over
     def handle_game_over(self):
