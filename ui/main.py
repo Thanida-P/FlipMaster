@@ -53,6 +53,7 @@ class MainWindow(QMainWindow):
         
         self.game_paused = False
         self.ui.pushButton_pause.setText("Pause")
+        self.timer.start()
         self.hide_pause_overlay()
         
         # Create a board
