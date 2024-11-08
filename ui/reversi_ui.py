@@ -30,7 +30,9 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QSize(1500, 750))
         MainWindow.setStyleSheet(u"background-color: #fffbe9;")
         
-        # Title style
+        ## -- Main menu styles -- ##
+        
+        # Title styles
         widget_game_title_style = """
             background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 151, 178, 255), stop:1 rgba(126, 217, 87, 255));
             border-radius: 15px;
@@ -57,7 +59,7 @@ class Ui_MainWindow(object):
             margin: 0 100px;
         """
         
-        # level select label style
+        ## Difficulty level select label styles ##
         level_select_style = """
             color: white;
             font-size: 30px;
@@ -76,7 +78,7 @@ class Ui_MainWindow(object):
             margin-top: 15px;
         """
         
-        # Radio button style
+        # Difficulty radio button styles
         radio_style = """
             QRadioButton::indicator {
                 width: 0px;
@@ -195,7 +197,9 @@ class Ui_MainWindow(object):
             }
         """
         
-        # In game UI styles
+        ## -- In game page styles -- ##
+        
+        # Score widget styles
         score_widget = """
             padding: 20px;
             border: none;
@@ -212,6 +216,7 @@ class Ui_MainWindow(object):
             background-color: #ffcc7f;
         """
         
+        # Sidebar menu styles
         buttons_style = """
             QPushButton#pushButton_new_game, QPushButton#pushButton_pause, QPushButton#pushButton_quit_game {
                 background-color: rgb(255, 255, 255);
@@ -234,7 +239,7 @@ class Ui_MainWindow(object):
         self.stackedWidget = QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName(u"stackedWidget")
         
-        ## Main menu page ##
+        ## -- Main menu page -- ##
         self.page_main_menu = QWidget()
         self.page_main_menu.setObjectName(u"page_main_menu")
         self.verticalLayout_3 = QVBoxLayout(self.page_main_menu)
@@ -257,7 +262,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
-        # Game title widget
+        ## Game title widget ##
         self.widget_game_title = QWidget(self.widget)
         self.widget_game_title.setObjectName(u"widget_game_title")
         self.widget_game_title.setMinimumSize(QSize(530, 100))
@@ -317,7 +322,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addItem(self.verticalSpacer)
         
-        # Game menu widget
+        ## Game menu widget ##
         self.widget_game_menu = QWidget(self.widget)
         self.widget_game_menu.setObjectName(u"widget_game_menu")
         self.widget_game_menu.setMinimumSize(QSize(100, 100))
@@ -345,7 +350,7 @@ class Ui_MainWindow(object):
         self.difficulty_group = QButtonGroup(self.widget_game_menu)
         self.difficulty_group.setObjectName(u"difficulty_group")
         
-        # Container widget for radio buttons
+        # Difficulty radio buttons container
         self.radio_container = QWidget(self.widget_game_menu)
         self.radio_container.setObjectName(u"radio_container")
         self.radio_container.setStyleSheet(u"background-color: transparent; \n margin: 0 10px; ")
@@ -419,13 +424,13 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
         self.stackedWidget.addWidget(self.page_main_menu)
         
-        ## Game play page ##
+        ## -- Game play page -- ##
         self.page_game_play = QWidget()
         self.page_game_play.setObjectName(u"page_game_play")
         self.horizontalLayout_13 = QHBoxLayout(self.page_game_play)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         
-        # Sidebar menu widget
+        ## Sidebar menu widget ##
         self.widget_sidebar_menu = QWidget(self.page_game_play)
         self.widget_sidebar_menu.setObjectName(u"widget_sidebar_menu")
         self.widget_sidebar_menu.setMinimumSize(QSize(200, 450))
@@ -478,7 +483,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.addWidget(self.pushButton_quit_game)
         self.horizontalLayout_13.addWidget(self.widget_sidebar_menu)
         
-        # Game area widget
+        ## Game area widget ##
         self.widget_game_area = QWidget(self.page_game_play)
         self.widget_game_area.setObjectName(u"widget_game_area")
         self.verticalLayout_7 = QVBoxLayout(self.widget_game_area)
@@ -529,7 +534,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.addItem(self.horizontalSpacer_12)
         self.verticalLayout_7.addLayout(self.horizontalLayout_11)
         
-        # Game board widget
+        ## Game board widget ##
         self.widget_board = QWidget(self.widget_game_area)
         self.widget_board.setObjectName(u"widget_board")
         self.widget_board.setMinimumSize(QSize(500, 500))
@@ -608,7 +613,8 @@ class Ui_MainWindow(object):
         self.label_opponent_score_2.setText(QCoreApplication.translate("MainWindow", u"score", None))
         self.pushButton_icon_player.setText("")
         self.label_player_score.setText(QCoreApplication.translate("MainWindow", u"score", None))
-
+        
+    ## Function to play sound when radio button is toggled ##
     def play_sound_on_toggle(self, checked):
         if checked:  # Only play sound when the button is selected
             self.radio_effect.play()
