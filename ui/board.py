@@ -29,6 +29,7 @@ class ReversiGame(QWidget):
         
         self.board = None
         self.possibleMoves = None
+        self.clear_possible_moves()
         self.playerTurn = True
         self.white = 0
         self.black = 0
