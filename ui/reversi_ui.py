@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QHBoxLayout
     QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
 from PySide6.QtWidgets import QButtonGroup, QRadioButton
 import src_rc
+from PySide6.QtMultimedia import QSoundEffect
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -372,6 +373,13 @@ class Ui_MainWindow(object):
         self.radio_hard.setStyleSheet(radio_style_hard)
         self.radio_hard.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         
+        self.radio_easy.toggled.connect(self.play_sound_on_toggle)
+        self.radio_medium.toggled.connect(self.play_sound_on_toggle)
+        self.radio_hard.toggled.connect(self.play_sound_on_toggle)
+        
+        self.radio_effect = QSoundEffect()
+        self.radio_effect.setSource(QUrl.fromLocalFile("./ui/ui_src/click.wav"))
+        
         self.radio_layout.addWidget(self.radio_easy)
         self.radio_layout.addWidget(self.radio_medium)
         self.radio_layout.addWidget(self.radio_hard)
@@ -600,4 +608,7 @@ class Ui_MainWindow(object):
         self.label_opponent_score_2.setText(QCoreApplication.translate("MainWindow", u"score", None))
         self.pushButton_icon_player.setText("")
         self.label_player_score.setText(QCoreApplication.translate("MainWindow", u"score", None))
-    # retranslateUi
+
+    def play_sound_on_toggle(self, checked):
+        if checked:  # Only play sound when the button is selected
+            self.radio_effect.play()
