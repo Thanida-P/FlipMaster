@@ -1,6 +1,40 @@
 % Alpha-Beta Algorithm
 
+% Cache management
 :- dynamic position_cache/4.  % Cache for board positions - Optimize performance for depth > 3
+:- dynamic game_id/1.  % Game ID tracking
+
+% Initialize game ID
+:- assertz(game_id(0)).
+
+% Initialize cache with game tracking
+init_cache :-
+    retractall(position_cache(_, _, _, _)),
+    retract(game_id(OldID)),
+    NewID is OldID + 1,
+    assertz(game_id(NewID)).
+
+% Cache lookup to include game ID
+lookup_cache(Board, Depth, Player, Score) :-
+    game_id(ID),
+    position_cache(Board, Depth, Player, Score),
+    position_cache(ID, Board, Depth, Player, Score).
+
+% Cache storage to include game ID
+store_cache(Board, Depth, Player, Score) :-
+    game_id(ID),
+    aggregate_all(count, position_cache(_, _, _, _), Count),
+    (Count > 10000 -> 
+        cleanup_cache
+    ;
+        true
+    ),
+    assertz(position_cache(ID, Board, Depth, Player, Score)).
+
+% Cleanup to handle game IDs
+cleanup_cache :-
+    game_id(ID),
+    retract(position_cache(ID, _, _, _, _)).
 
 % Initialize cache
 init_cache :-
