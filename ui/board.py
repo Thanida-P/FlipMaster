@@ -1,11 +1,12 @@
 import sys
 from PySide6.QtWidgets import QApplication, QGridLayout, QWidget, QLabel
-from PySide6.QtCore import Qt, QTimer, QUrl
+from PySide6.QtCore import Qt, QTimer, QUrl, Signal
 from PySide6.QtGui import QPixmap, QCursor
 from pyswip import Prolog
 from PySide6.QtMultimedia import QSoundEffect
 
 class ReversiGame(QWidget):
+    score_updated = Signal(int, int)
     def __init__(self, difficulty, game_over_callback):
         super().__init__()
         
@@ -82,6 +83,7 @@ class ReversiGame(QWidget):
         if result:
             self.board = result[0]["Board"]
             self.possibleMoves = self.format_moves(result[0]["UniqueMoves"])
+            self.update_scores()
     
     # clear past possible moves
     def clear_possible_moves(self):
@@ -110,6 +112,7 @@ class ReversiGame(QWidget):
             self.playerTurn = False
             self.init_board()
             self.sound_effect.play()
+            self.update_scores()
     
     # AI move
     def handleAITurn(self):
@@ -128,6 +131,7 @@ class ReversiGame(QWidget):
             self.playerTurn = True
             self.init_board()
             self.sound_effect.play() 
+            self.update_scores()
             
     # game over
     def handle_game_over(self):
@@ -149,6 +153,22 @@ class ReversiGame(QWidget):
             label.setPixmap(disc_pixmap)
             label.setStyleSheet("border: 1px solid black; background-color: #40bc4f;")  # Ensure the background is green
             label.setCursor(QCursor(Qt.CursorShape.PointingHandCursor)) 
+
+    # count the number of pieces
+    def count_pieces(self):
+        white_count = 0
+        black_count = 0
+        for row in self.board:
+            white_count += row.count('w')
+            black_count += row.count('b')
+        return white_count, black_count
+
+    # update the scores
+    def update_scores(self):
+        white_count, black_count = self.count_pieces()
+        self.white = white_count
+        self.black = black_count
+        self.score_updated.emit(self.white, self.black) 
         
     # reset the board
     def reset_board(self):
