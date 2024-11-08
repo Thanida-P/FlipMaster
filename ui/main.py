@@ -39,6 +39,8 @@ class MainWindow(QMainWindow):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_timer)
         self.timer.start(1000)  # Update every second
+        self.ui.label_player_score.setText("White: 2")
+        self.ui.label_opponent_score_2.setText("Black: 2")
 
     def start_new_game(self):
         self.play_effect.play()
@@ -52,12 +54,14 @@ class MainWindow(QMainWindow):
         # Create a board
         self.board = ReversiGame(self.difficulty, self.result_widget)
         self.ui.gridLayout.addWidget(self.board, 0, 0, 1, 1)
+        self.board.score_updated.connect(self.update_score_display)
         
         self.ui.stackedWidget.setCurrentIndex(1)
         # Reset game state here
         self.game_time = 0
-        # self.update_score_display()
         self.update_timer_display()
+        self.ui.label_player_score.setText("White: 2")
+        self.ui.label_opponent_score_2.setText("Black: 2")
 
     def toggle_pause(self):
         self.game_paused = not self.game_paused
@@ -81,6 +85,11 @@ class MainWindow(QMainWindow):
         minutes = self.game_time // 60
         seconds = self.game_time % 60
         self.ui.label_timer.setText(f"Time: {minutes:02d}:{seconds:02d}")
+
+    def update_score_display(self, white_score, black_score):
+        # Update the score labels with the latest scores
+        self.ui.label_player_score.setText(f"White: {white_score}")
+        self.ui.label_opponent_score_2.setText(f"Black: {black_score}")
 
     def change_to_main_page(self):
         self.general_effect.play()
