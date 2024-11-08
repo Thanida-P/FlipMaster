@@ -108,11 +108,7 @@ class ReversiGame(QWidget):
             self.board = result[0]["NewBoard"]
             self.playerTurn = False
             self.init_board()
-            self.play_sound()
-    
-    def play_sound(self):
-        sound = "./ui/ui_src/place.wav"
-        self.sound_effect.play()
+            self.sound_effect.play()
     
     # AI move
     def handleAITurn(self):
@@ -130,7 +126,7 @@ class ReversiGame(QWidget):
             self.possibleMoves = self.format_moves(result[0]["UniqueMoves"])
             self.playerTurn = True
             self.init_board()
-            self.play_sound()   
+            self.sound_effect.play() 
             
     # game over
     def handle_game_over(self):
