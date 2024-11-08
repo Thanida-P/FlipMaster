@@ -61,7 +61,7 @@ class ReversiGame(QWidget):
                 self.grid_layout.addWidget(label, row, col)
         
         if not self.playerTurn or self.possibleMoves == []:
-            QTimer.singleShot(300, self.handleAITurn)
+            QTimer.singleShot(500, self.handleAITurn)
         else:
             self.clear_possible_moves()
             self.update_possible_moves()
