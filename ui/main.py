@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
             self.difficulty = "hard"
         
         self.game_paused = False
-        self.ui.pushButton_pause.setText("Resume")
+        self.ui.pushButton_pause.setText("Pause")
         self.hide_pause_overlay()
         
         # Create a board
