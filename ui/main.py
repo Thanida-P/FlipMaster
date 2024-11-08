@@ -17,6 +17,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_play.clicked.connect(self.start_new_game)
 
         # game page buttons
+        self.ui.pushButton_new_game.clicked.connect(self.start_new_game)
         self.ui.pushButton_pause.clicked.connect(self.toggle_pause)
         self.ui.pushButton_quit_game.clicked.connect(self.change_to_main_page)
         self.ui.pushButton_quit_program.clicked.connect(self.quit_program)
