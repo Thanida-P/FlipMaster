@@ -174,9 +174,3 @@ class ReversiGame(QWidget):
     def reset_board(self):
         self.get_board_and_moves()
         self.init_board()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    game = ReversiGame()
-    game.show()
-    sys.exit(app.exec())
