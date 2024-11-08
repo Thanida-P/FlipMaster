@@ -6,9 +6,10 @@ from pyswip import Prolog
 from PySide6.QtMultimedia import QSoundEffect
 
 class ReversiGame(QWidget):
-    def __init__(self, difficulty):
+    def __init__(self, difficulty, game_over_callback):
         super().__init__()
-
+        
+        self.game_over_callback = game_over_callback
         self.setWindowTitle("Reversi Game")
         self.setFixedSize(500, 500)
 
@@ -35,7 +36,6 @@ class ReversiGame(QWidget):
         self.sound_effect.setSource(QUrl.fromLocalFile("./ui/ui_src/place.wav"))
         
         self.start_game_in_prolog()
-        
         self.init_board()
         self.update_possible_moves()
 
@@ -135,11 +135,13 @@ class ReversiGame(QWidget):
     # game over
     def handle_game_over(self):
         if self.white > self.black:
-            print("Player wins!")
+            result = "Player wins!"
         elif self.white < self.black:
-            print("AI wins!")
+            result = "AI wins!"
         else:
-            print("It's a tie!")     
+            result = "It's a tie!"
+        if self.game_over_callback:
+            self.game_over_callback(result)
     
     # update possible moves
     def update_possible_moves(self):
