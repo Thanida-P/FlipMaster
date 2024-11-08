@@ -1,6 +1,6 @@
 import sys
 from PySide6.QtWidgets import QApplication, QGridLayout, QWidget, QLabel
-from PySide6.QtCore import Qt, QTimer, QUrl, Signal, QObject
+from PySide6.QtCore import Qt, QTimer, QUrl, Signal
 from PySide6.QtGui import QPixmap, QCursor
 from pyswip import Prolog
 from PySide6.QtMultimedia import QSoundEffect
