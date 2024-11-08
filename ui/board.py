@@ -67,7 +67,7 @@ class ReversiGame(QWidget):
             self.clear_possible_moves()
             self.update_possible_moves()
             
-        
+    # format possible moves to list
     def format_moves(self, moves):
         formatted_moves = []
         for move in moves:
@@ -151,7 +151,7 @@ class ReversiGame(QWidget):
             label = self.board_labels[row][col]
             disc_pixmap = QPixmap("./ui/ui_src/transparent_disc.png").scaled(50, 50, Qt.KeepAspectRatio)
             label.setPixmap(disc_pixmap)
-            label.setStyleSheet("border: 1px solid black; background-color: #40bc4f;")  # Ensure the background is green
+            label.setStyleSheet("border: 1px solid black; background-color: #40bc4f;")
             label.setCursor(QCursor(Qt.CursorShape.PointingHandCursor)) 
 
     # count the number of pieces
