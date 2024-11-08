@@ -481,15 +481,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_11.addItem(self.horizontalSpacer_11)
         
-        # TODO: Add result label
-        # Create the label for displaying the result
-        # self.result_label = QLabel(self.widget_game_area)
-        # self.result_label.setObjectName("result_label")
-        # self.result_label.setStyleSheet("font-size: 30px; color: white; font-weight: bold;")
-        # self.result_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        # self.result_label.setVisible(False)  # Initially hidden
-        # self.verticalLayout_7.addWidget(self.result_label)
-        
         # Opponent score widget
         self.widget_opponent = QWidget(self.widget_game_area)
         self.widget_opponent.setObjectName(u"widget_opponent")

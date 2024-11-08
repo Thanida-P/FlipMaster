@@ -1,7 +1,7 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QGridLayout, QWidget, QLabel
 from PySide6.QtCore import Qt, QTimer, QUrl
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap, QCursor
 from pyswip import Prolog
 from PySide6.QtMultimedia import QSoundEffect
 
@@ -151,6 +151,7 @@ class ReversiGame(QWidget):
             disc_pixmap = QPixmap("./ui/ui_src/transparent_disc.png").scaled(50, 50, Qt.KeepAspectRatio)
             label.setPixmap(disc_pixmap)
             label.setStyleSheet("border: 1px solid black; background-color: #40bc4f;")  # Ensure the background is green
+            label.setCursor(QCursor(Qt.CursorShape.PointingHandCursor)) 
         
     # reset the board
     def reset_board(self):
