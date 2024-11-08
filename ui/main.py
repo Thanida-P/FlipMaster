@@ -65,10 +65,12 @@ class MainWindow(QMainWindow):
             self.pause_effect.play()
             self.timer.stop()
             self.ui.pushButton_pause.setText("Resume")
+            self.show_pause_overlay()
         else:
             self.resume_effect.play()
             self.timer.start()
             self.ui.pushButton_pause.setText("Pause")
+            self.hide_pause_overlay()
 
     def update_timer(self):
         if not self.game_paused:
@@ -87,6 +89,29 @@ class MainWindow(QMainWindow):
     def quit_program(self):
         self.general_effect.play()
         QTimer.singleShot(200, QApplication.instance().quit) 
+        
+    def show_pause_overlay(self):
+        # Create the overlay widget on top of the board
+        self.overlay = QWidget(parent=self.board)
+        self.overlay.setGeometry(0, 0, 500, 500)
+        self.overlay.setStyleSheet("background-color: rgba(0, 0, 0, 0.5); margin: 5px 0 0 5px;")
+
+        label = QLabel("Paused", parent=self.overlay)
+        label.setStyleSheet("color: white; font-size: 30px; font-weight: bold; background-color: none;")
+        label.setAlignment(Qt.AlignCenter)
+
+        label.setGeometry(
+            (self.overlay.width() - label.sizeHint().width()) // 2,
+            (self.overlay.height() - label.sizeHint().height()) // 2,
+            label.sizeHint().width(),
+            label.sizeHint().height()
+        )
+
+        self.overlay.show()
+
+    def hide_pause_overlay(self):
+        if hasattr(self, 'overlay'):
+            self.overlay.hide()
 
     def result_widget(self, result):
         overlay = QWidget(parent=self)
@@ -125,7 +150,7 @@ class MainWindow(QMainWindow):
         new_game_button.setStyleSheet(button_style)
         new_game_button.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         new_game_button.clicked.connect(self.start_new_game)
-        new_game_button.clicked.connect(self.hide_overlay)
+        new_game_button.clicked.connect(self.hide_result_overlay)
         button_layout.addWidget(new_game_button)
         
         # Home button
@@ -137,7 +162,7 @@ class MainWindow(QMainWindow):
         home_button.setStyleSheet(button_style)
         home_button.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         home_button.clicked.connect(self.change_to_main_page)
-        home_button.clicked.connect(self.hide_overlay)
+        home_button.clicked.connect(self.hide_result_overlay)
         button_layout.addWidget(home_button)
 
         button_layout.addStretch()
@@ -167,7 +192,7 @@ class MainWindow(QMainWindow):
 
         overlay.show()
         
-    def hide_overlay(self):
+    def hide_result_overlay(self):
         self.sender().parent().parent().hide()
 
 if __name__ == "__main__":
