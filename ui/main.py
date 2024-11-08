@@ -50,7 +50,11 @@ class MainWindow(QMainWindow):
             self.difficulty = "medium"
         elif self.ui.radio_hard.isChecked():
             self.difficulty = "hard"
-            
+        
+        self.game_paused = False
+        self.ui.pushButton_pause.setText("Resume")
+        self.hide_pause_overlay()
+        
         # Create a board
         self.board = ReversiGame(self.difficulty, self.result_widget)
         self.ui.gridLayout.addWidget(self.board, 0, 0, 1, 1)
