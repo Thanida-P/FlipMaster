@@ -15,12 +15,12 @@ class MainWindow(QMainWindow):
         self.initialize_game()
 
     def setup_connections(self):
-        # main page buttons
+        # main page 
         self.ui.pushButton_play.clicked.connect(self.start_new_game)
         self.play_effect = QSoundEffect()
         self.play_effect.setSource(QUrl.fromLocalFile("./ui/ui_src/play.wav"))
 
-        # game page buttons
+        # game page
         self.ui.pushButton_new_game.clicked.connect(self.start_new_game)
         self.ui.pushButton_pause.clicked.connect(self.toggle_pause)
         self.pause_effect = QSoundEffect()
@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
         self.game_time = 0
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_timer)
-        self.timer.start(1000)  # Update every second
+        self.timer.start(1000)
         self.ui.label_player_score.setText("White: 2")
         self.ui.label_opponent_score_2.setText("Black: 2")
 
@@ -61,6 +61,7 @@ class MainWindow(QMainWindow):
         self.board.score_updated.connect(self.update_score_display)
         
         self.ui.stackedWidget.setCurrentIndex(1)
+        
         # Reset game state here
         self.game_time = 0
         self.update_timer_display()
@@ -91,7 +92,6 @@ class MainWindow(QMainWindow):
         self.ui.label_timer.setText(f"Time: {minutes:02d}:{seconds:02d}")
 
     def update_score_display(self, white_score, black_score):
-        # Update the score labels with the latest scores
         self.ui.label_player_score.setText(f"White: {white_score}")
         self.ui.label_opponent_score_2.setText(f"Black: {black_score}")
 
