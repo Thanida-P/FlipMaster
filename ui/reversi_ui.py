@@ -144,7 +144,7 @@ class Ui_MainWindow(object):
                         background-color: rgb(217, 217, 217);
                         color: gray;
                         border-radius: 25px;
-                        padding: 10px 10px 10px 40px;
+                        padding: 10px 10px 10px 10px;
                         text-align: center;
                         font-size: 22px;
                         font-weight: bold;
@@ -157,7 +157,7 @@ class Ui_MainWindow(object):
                         background-color: rgb(217, 217, 217);
                         color: gray;
                         border-radius: 25px;
-                        padding: 10px 10px 10px 20px;
+                        padding: 10px 10px 10px 15px;
                         text-align: center;
                         font-size: 22px;
                         font-weight: bold;
