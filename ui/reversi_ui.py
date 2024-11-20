@@ -361,7 +361,7 @@ class Ui_MainWindow(object):
         # Difficulty radio buttons
         self.radio_easy = QRadioButton(self.radio_container)
         self.radio_easy.setObjectName(u"radio_easy")
-        self.radio_easy.setText(QCoreApplication.translate("MainWindow", u"EASY", None))
+        self.radio_easy.setText(QCoreApplication.translate("MainWindow", u"Transparent", None))
         self.radio_easy.setStyleSheet(radio_style_easy)
         self.radio_easy.setChecked(True)
         self.radio_easy.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))

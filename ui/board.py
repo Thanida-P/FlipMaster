@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QGridLayout, QWidget, QLabel
 from PySide6.QtCore import Qt, QTimer, QUrl, Signal
-from PySide6.QtGui import QPixmap, QCursor
+from PySide6.QtGui import QPixmap, QCursor, QPainter, QFont, QColor
 from pyswip import Prolog
 from PySide6.QtMultimedia import QSoundEffect
 
@@ -19,23 +19,26 @@ class ReversiGame(QWidget):
         self.board_labels = [[None for _ in range(8)] for _ in range(8)]
 
         self.prolog = Prolog()
+        
+        self.transparent = False
 
         if difficulty == "hard":
             self.prolog.consult("alphabetaReversi.pl")
         elif difficulty == "medium":
             self.prolog.consult("minimaxReversi.pl")
         else:
-            self.prolog.consult("randomReversi.pl")
+            self.prolog.consult("minimaxReversi.pl")
+            self.transparent = True
         
         self.board = None
         self.possibleMoves = None
+        self.aiPossibleMoves = None
         self.clear_possible_moves()
         self.playerTurn = True
         self.white = 0
         self.black = 0
         self.sound_effect = QSoundEffect()
         self.sound_effect.setSource(QUrl.fromLocalFile("./ui/ui_src/place.wav"))
-        
         self.start_game_in_prolog()
         self.init_board()
         self.update_possible_moves()
@@ -73,6 +76,17 @@ class ReversiGame(QWidget):
             move = move.strip(',()')
             row, col = map(int, move.split(','))
             formatted_moves.append((row, col))
+        return formatted_moves
+    
+    def format_ai_moves(self, moves_list):
+        formatted_moves = []
+        for move in moves_list:
+            move = move.strip(',').replace(' ', '') 
+            row, back = move.split(',,(')
+            row = row.strip('(')
+            col, score = back.split(',')
+            score = score.strip('))')
+            formatted_moves.append(((int(row), int(col)), int(score)))
         return formatted_moves
 
     # start the game
@@ -115,7 +129,10 @@ class ReversiGame(QWidget):
     
     # AI move
     def handleAITurn(self):
-        query = f"play_game({self.board}, b, NewBoard, UniqueMoves, GameOver, White, Black)"
+        if self.transparent == True:
+            query = f"play_game({self.board}, b, NewBoard, UniqueMoves, GameOver, White, Black, Scores)"
+        else:
+            query = f"play_game({self.board}, b, NewBoard, UniqueMoves, GameOver, White, Black)"
         result = list(self.prolog.query(query))
         
         if result:
@@ -127,11 +144,17 @@ class ReversiGame(QWidget):
                 return
             self.board = result[0]["NewBoard"]
             self.possibleMoves = self.format_moves(result[0]["UniqueMoves"])
+            if self.transparent == True:
+                self.aiPossibleMoves = self.format_ai_moves(result[0]["Scores"])
             self.playerTurn = True
-            self.init_board()
-            self.sound_effect.play() 
+            if self.transparent == True:
+                self.update_ai_possible_moves()
+                QTimer.singleShot(2000, self.init_board)
+                QTimer.singleShot(2000, self.sound_effect.play)
+            else:
+                self.init_board()
+                self.sound_effect.play()
             self.update_scores()
-            
     # game over
     def handle_game_over(self):
         if self.white > self.black:
@@ -152,6 +175,28 @@ class ReversiGame(QWidget):
             label.setPixmap(disc_pixmap)
             label.setStyleSheet("border: 1px solid black; background-color: #40bc4f;")
             label.setCursor(QCursor(Qt.CursorShape.PointingHandCursor)) 
+            
+        # update ai possible moves
+    def update_ai_possible_moves(self):
+        for block in self.aiPossibleMoves:
+            move, score = block
+            row, col = move
+            label = self.board_labels[row][col]
+
+            # Load the base pixmap
+            disc_pixmap = QPixmap("./ui/ui_src/transparent_disc_ai.png").scaled(50, 50, Qt.KeepAspectRatio)
+
+            # Create a painter to overlay the score
+            painter = QPainter(disc_pixmap)
+            painter.setFont(QFont("Arial", 10, QFont.Bold))  # Customize font size and style
+            painter.setPen(QColor("black"))  # Set text color
+            painter.drawText(disc_pixmap.rect(), Qt.AlignCenter, str(score))  # Draw score at the center
+            painter.end()
+
+            # Set the modified pixmap to the label
+            label.setPixmap(disc_pixmap)
+            label.setStyleSheet("border: 1px solid black; background-color: #40bc4f;")
+            label.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
     # count the number of pieces
     def count_pieces(self):

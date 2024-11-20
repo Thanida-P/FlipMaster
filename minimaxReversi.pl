@@ -39,7 +39,7 @@ play_game(Board, w, X, Y, NewBoard, GameOver, White, Black) :-
    
 
 % AI move
-play_game(Board, b, NewBoard, UniqueMoves, GameOver, White, Black) :-
+play_game(Board, b, NewBoard, UniqueMoves, GameOver, White, Black, Scores) :-
     (game_over(Board, b) ->
         GameOver = true,
         NewBoard = Board,
@@ -49,7 +49,7 @@ play_game(Board, b, NewBoard, UniqueMoves, GameOver, White, Black) :-
         (Moves = [] ->
             NewBoard = Board
         ;
-            minimax(Board, b, 3, _BestScore, (X, Y)),
+            minimax(Board, b, 3, _BestScore, (X, Y), Scores),
             make_move(Board, b, X, Y, NewBoard)
         ), GameOver = false, 
 			findall((X1, Y1), valid_move(NewBoard, w, X1, Y1), NextMoves),
