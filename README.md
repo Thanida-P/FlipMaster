@@ -21,8 +21,8 @@ board.
 <b>The AI Concepts to Apply in this Project</b>
 
 1. Search Algorithm: In this project, we focus on a search algorithm that evaluates potential moves while also considering the future consequences of those moves. The aim is to make decisions rooted in an optimal game strategy, such as a particular emphasis on prioritizing edges and corners. Two primary search algorithms have been implemented including:
- - Minimax Algorithm: The AI will choose the move that leads to the highest possible score, by assuming the opponent is trying to minimize the AI’s score
+   - Minimax Algorithm: The AI will choose the move that leads to the highest possible score, by assuming the opponent is trying to minimize the AI’s score
 
- - Alpha-Beta Pruning: The AI will still make optimal moves similar to the minimax algorithm but with improved performance, particularly when facing large decision trees in complex board states
+   - Alpha-Beta Pruning: The AI will still make optimal moves similar to the minimax algorithm but with improved performance, particularly when facing large decision trees in complex board states
 
 2. The AI employs heuristics to assess non-terminal game states, where a definitive winner or loser has not yet been determined. A heuristic function assigns a value to each board state, indicating how favorable it is for the AI. The AI uses this value to decide which move to make.
